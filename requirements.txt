@@ -15,10 +15,12 @@ pydantic-settings>=2.11.0,<3.0.0
 python-dotenv>=1.0.1,<2.0.0
 
 # Imaging / OCR
+# Imaging / OCR
 Pillow>=11.0.0,<12.0.0
-numpy>=1.26.0,<3.0.0
-paddleocr==3.2.0
-paddlepaddle==3.2.0
+numpy>=1.26.0,<2.0.0
+
+paddleocr==2.10.0
+paddlepaddle==2.6.2
 
 # QR code & barcode detection (native wheel, no system lib required;
 # covers QR/Aztec/DataMatrix/PDF417/Code128/Code39/EAN/UPC and more)
