@@ -1,0 +1,31 @@
+# Pinned as version RANGES (floor = confirmed-current as of July 2026, ceiling =
+# next major) rather than exact patch versions, so a fresh Railway build always
+# gets the latest compatible patch/minor release instead of a pin that goes
+# stale or gets yanked. Re-run `pip install -r requirements.txt --upgrade` and
+# re-test periodically.
+
+# Web framework
+fastapi>=0.130.0,<1.0.0
+uvicorn[standard]>=0.34.0,<1.0.0
+python-multipart>=0.0.18,<0.1.0
+
+# Config / validation
+pydantic>=2.11.0,<3.0.0
+pydantic-settings>=2.11.0,<3.0.0
+python-dotenv>=1.0.1,<2.0.0
+
+# Imaging / OCR
+Pillow>=11.0.0,<12.0.0
+numpy>=1.26.0,<3.0.0
+paddleocr==3.2.0
+paddlepaddle==3.2.0
+
+# QR code & barcode detection (native wheel, no system lib required;
+# covers QR/Aztec/DataMatrix/PDF417/Code128/Code39/EAN/UPC and more)
+zxing-cpp>=3.0.0,<4.0.0
+
+# Gemini AI
+google-genai>=2.0.0,<3.0.0
+
+# Retry / resilience
+tenacity>=9.0.0,<10.0.0

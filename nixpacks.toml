@@ -1,0 +1,19 @@
+# Fallback build config, only used if Railway's builder is set to
+# "Nixpacks" instead of "Dockerfile" (railway.json requests Dockerfile,
+# which is the recommended path for this service - Nixpacks has no
+# equivalent to the build-time PaddleOCR model pre-download the Dockerfile
+# does, so the first request after a Nixpacks deploy will download models
+# over the network instead of using a baked-in cache).
+#
+# mesa/libGL and glib cover the same runtime needs as the Dockerfile's
+# libgl1/libglib2.0-0/libsm6/libxext6/libxrender1 for paddlepaddle's
+# OpenCV-based image backend.
+
+[phases.setup]
+nixPkgs = ["python312", "mesa", "glib", "gtk3"]
+
+[phases.install]
+cmds = ["pip install --no-cache-dir -r requirements.txt"]
+
+[start]
+cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers ${WEB_CONCURRENCY:-1}"
