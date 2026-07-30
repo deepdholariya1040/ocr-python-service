@@ -65,7 +65,10 @@ def _get_ocr(settings: Settings) -> PaddleOCR:
                 started = time.perf_counter()
                 logger.info("initializing_paddleocr", extra={"lang": settings.OCR_LANGUAGE})
 
-                _ocr_instance = PaddleOCR(lang=settings.OCR_LANGUAGE)
+                _ocr_instance = PaddleOCR(
+                lang=settings.OCR_LANGUAGE,
+                use_angle_cls=False,
+            )
 
                 logger.info(
                     "paddleocr_initialized",
