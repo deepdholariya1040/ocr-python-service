@@ -54,10 +54,24 @@ def run_pipeline(
     barcodes: list[BarcodeItem] = []
 
     if front_image is not None:
+        processed_front = preprocess_for_ocr(front_image, settings)
+
+        logger.info(
+            "processed_image_size",
+            extra={
+                "originalWidth": front_image.width,
+                "originalHeight": front_image.height,
+                "processedWidth": processed_front.width,
+                "processedHeight": processed_front.height,
+            },
+        )
+
         with stage_timer(timings, "front_ocr_ms"):
-            front_text = ocr_engine.extract_text(preprocess_for_ocr(front_image, settings), settings)
+            front_text = ocr_engine.extract_text(processed_front, settings)
+
         with stage_timer(timings, "front_qr_barcode_ms"):
             front_qr, front_barcodes = qr_barcode_service.detect_codes(front_image, settings)
+
         qr_codes.extend(front_qr)
         barcodes.extend(front_barcodes)
         image_quality["front"] = assess_image_quality(front_image)
