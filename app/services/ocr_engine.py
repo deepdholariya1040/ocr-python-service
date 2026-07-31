@@ -117,6 +117,13 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
         with semaphore:
             result = ocr.ocr(temp_path, cls=False)
 
+        logger.info(
+            "ocr_raw_result",
+            extra={
+                "result": str(result)[:3000],
+            },
+        )
+
         if not result:
             return ""
 
