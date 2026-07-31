@@ -71,6 +71,16 @@ def _get_ocr(settings: Settings) -> PaddleOCR:
                 use_angle_cls=False,
             )
 
+            logger.warning(
+                "PADDLE_DEBUG",
+                extra={
+                    "version": __import__("paddleocr").__version__,
+                    "has_ocr": hasattr(_ocr_instance, "ocr"),
+                    "has_predict": hasattr(_ocr_instance, "predict"),
+                    "type": str(type(_ocr_instance)),
+                },
+            )
+
                 logger.info(
                     "paddleocr_initialized",
                     extra={"durationMs": round((time.perf_counter() - started) * 1000, 2)},
