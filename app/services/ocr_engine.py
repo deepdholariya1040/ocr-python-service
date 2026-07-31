@@ -67,19 +67,19 @@ def _get_ocr(settings: Settings) -> PaddleOCR:
                 logger.info("initializing_paddleocr", extra={"lang": settings.OCR_LANGUAGE})
 
                 _ocr_instance = PaddleOCR(
-                lang=settings.OCR_LANGUAGE,
-                use_textline_orientation=False,
-            )
+                    lang=settings.OCR_LANGUAGE,
+                    use_textline_orientation=False,
+                )
 
-            logger.warning(
-                "PADDLE_DEBUG",
-                extra={
-                    "version": __import__("paddleocr").__version__,
-                    "has_ocr": hasattr(_ocr_instance, "ocr"),
-                    "has_predict": hasattr(_ocr_instance, "predict"),
-                    "type": str(type(_ocr_instance)),
-                },
-            )
+                logger.warning(
+                    "PADDLE_DEBUG",
+                    extra={
+                        "version": __import__("paddleocr").__version__,
+                        "has_ocr": hasattr(_ocr_instance, "ocr"),
+                        "has_predict": hasattr(_ocr_instance, "predict"),
+                        "type": str(type(_ocr_instance)),
+                    },
+                )
 
                 logger.info(
                     "paddleocr_initialized",
