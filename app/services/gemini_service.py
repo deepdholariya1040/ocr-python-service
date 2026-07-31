@@ -348,7 +348,29 @@ Do not discard any business information.
 
 Notes
 
-Only use "notes" for information that genuinely does not belong to any structured field.
+- Do NOT discard any text from the business card.
+
+- Every meaningful piece of OCR text must appear somewhere in the output JSON.
+
+- If any text cannot be confidently mapped to an existing structured field,
+  place it inside the "notes" field.
+
+- The "notes" field must contain all remaining unused OCR text, such as:
+  - slogans
+  - taglines
+  - certifications
+  - awards
+  - marketing text
+  - miscellaneous text
+  - unknown values
+  - random business information
+  - any other text that was not assigned to another field
+
+- Before returning the JSON, verify that every meaningful OCR line has either:
+  1. been assigned to a structured field, or
+  2. been included in the "notes" field.
+
+- Never lose or discard any OCR text.
 
 Return JSON exactly matching the schema below.
 Additional top-level keys are allowed whenever the business card contains extra information.
