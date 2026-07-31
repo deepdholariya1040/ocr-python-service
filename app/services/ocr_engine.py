@@ -169,7 +169,16 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
                 if text:
                     texts.append(text)
 
-        return "\n".join(texts).strip()
+        raw_text = "\n".join(texts).strip()
+
+        logger.info(
+            "OCR_EXTRACTED_TEXT",
+            extra={
+                "text": raw_text[:5000]   # pehle 5000 characters
+            },
+        )
+
+        return raw_text
 
     except Exception:  # noqa: BLE001
         logger.exception("ocr_extraction_failed")
