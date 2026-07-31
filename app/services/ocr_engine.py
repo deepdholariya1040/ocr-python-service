@@ -158,7 +158,7 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
         print(traceback.format_exc())
         print("=" * 80)
 
-        raise
+        return ""
     finally:
         if temp_path is not None:
             Path(temp_path).unlink(missing_ok=True)
