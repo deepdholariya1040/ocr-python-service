@@ -68,7 +68,7 @@ def _get_ocr(settings: Settings) -> PaddleOCR:
 
                 _ocr_instance = PaddleOCR(
                 lang=settings.OCR_LANGUAGE,
-                use_angle_cls=False,
+                use_textline_orientation=False,
             )
 
             logger.warning(
@@ -127,7 +127,7 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
             temp_path = tmp.name
 
         with semaphore:
-            result = ocr.ocr(temp_path, cls=False)
+            result = ocr.predict(temp_path)
 
         logger.info(
             "ocr_raw_result",
@@ -141,23 +141,19 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
 
         texts: list[str] = []
 
-        for page in result or []:
-            if not page:
+        for res in result or []:
+            try:
+                rec_texts = res["rec_texts"] if isinstance(res, dict) else res.get("rec_texts")
+            except Exception:
+                rec_texts = getattr(res, "rec_texts", None)
+
+            if not rec_texts:
                 continue
 
-            for line in page:
-                try:
-                    if (
-                        isinstance(line, (list, tuple))
-                        and len(line) >= 2
-                        and isinstance(line[1], (list, tuple))
-                        and len(line[1]) >= 1
-                    ):
-                        text = str(line[1][0]).strip()
-                        if text:
-                            texts.append(text)
-                except Exception:
-                    continue
+            for text in rec_texts:
+                text = str(text).strip()
+                if text:
+                    texts.append(text)
 
         return "\n".join(texts).strip()
 
