@@ -55,9 +55,24 @@ def build_parsed_data(merged_text: str, settings: Settings) -> Tuple[ParsedData,
     if not has_meaningful_text(merged_text, settings.OCR_MIN_MEANINGFUL_CHARS):
         return ParsedData(), "empty"
 
+    logger.info(
+        "TEXT_BEFORE_GEMINI",
+        extra={
+            "text": merged_text,
+            "length": len(merged_text),
+        },
+    )
+
     gemini_result = parse_with_gemini(merged_text, settings)
     if gemini_result is not None:
-        return _normalize(gemini_result), "gemini"
+        logger.info(
+            "GEMINI_RESULT",
+            extra={
+                "result": gemini_result.model_dump(),
+            },
+        )
+
+    return _normalize(gemini_result), "gemini"
 
     logger.info("falling_back_to_regex_parser")
     regex_result = parse_with_regex(merged_text)
