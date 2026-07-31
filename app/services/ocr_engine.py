@@ -26,6 +26,7 @@ from __future__ import annotations
 import tempfile
 import threading
 import time
+import traceback
 from pathlib import Path
 
 from paddleocr import PaddleOCR
@@ -150,14 +151,14 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
 
         return "\n".join(texts).strip()
 
-    except Exception as exc:  # noqa: BLE001
-        logger.warning(
-            "ocr_extraction_failed",
-            extra={
-                "error": str(exc),
-            },
-        )
-        return ""
+    except Exception:  # noqa: BLE001
+        logger.exception("ocr_extraction_failed")
+
+        print("=" * 80)
+        print(traceback.format_exc())
+        print("=" * 80)
+
+        raise
     finally:
         if temp_path is not None:
             Path(temp_path).unlink(missing_ok=True)
