@@ -171,10 +171,16 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
 
         raw_text = "\n".join(texts).strip()
 
+        print("=" * 100)
+        print("OCR RAW TEXT START")
+        print(raw_text)
+        print("OCR RAW TEXT END")
+        print("=" * 100)
+
         logger.info(
-            "OCR_EXTRACTED_TEXT",
+            "OCR_TEXT_LENGTH",
             extra={
-                "text": raw_text[:5000]   # pehle 5000 characters
+                "length": len(raw_text)
             },
         )
 
