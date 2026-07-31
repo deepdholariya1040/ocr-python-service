@@ -35,6 +35,7 @@ import json
 import re
 from functools import lru_cache
 from typing import Any, Dict, Optional
+import traceback
 
 from google import genai
 from google.genai import types as genai_types
@@ -601,7 +602,7 @@ def parse_with_gemini(ocr_text: str, settings: Settings) -> Optional[ParsedData]
         )
     except Exception as exc:  # noqa: BLE001 - never let Gemini crash the request
         print("========== GEMINI CALL FAILED ==========")
-        print(exc)
+        traceback.print_exc()
         logger.error("gemini_call_failed_after_retries")
         return None
 
