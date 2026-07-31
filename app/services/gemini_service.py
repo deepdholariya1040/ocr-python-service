@@ -600,7 +600,9 @@ def parse_with_gemini(ocr_text: str, settings: Settings) -> Optional[ParsedData]
             temperature=settings.GEMINI_TEMPERATURE,
         )
     except Exception as exc:  # noqa: BLE001 - never let Gemini crash the request
-        logger.error("gemini_call_failed_after_retries", extra={"error": str(exc)})
+        print("========== GEMINI CALL FAILED ==========")
+        print(exc)
+        logger.error("gemini_call_failed_after_retries")
         return None
 
     cleaned = _strip_code_fences(raw_text)
@@ -609,13 +611,17 @@ def parse_with_gemini(ocr_text: str, settings: Settings) -> Optional[ParsedData]
     try:
         payload = json.loads(cleaned)
     except json.JSONDecodeError as exc:
-        logger.error("gemini_response_not_json", extra={"error": str(exc), "raw_preview": cleaned[:200]})
+        print("========== GEMINI NOT JSON ==========")
+        print(cleaned)
+        logger.error("gemini_response_not_json")
         return None
 
     try:
         extraction = GeminiCardExtraction.model_validate(payload)
     except ValidationError as exc:
-        logger.error("gemini_response_failed_validation", extra={"error": str(exc)})
+        print("========== GEMINI VALIDATION ERROR ==========")
+        print(exc)
+        logger.error("gemini_response_failed_validation")
         return None
 
     return _to_parsed_data(extraction)
