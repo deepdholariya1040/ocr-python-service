@@ -115,7 +115,7 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
             temp_path = tmp.name
 
         with semaphore:
-            result = ocr.predict(temp_path)
+            result = ocr.ocr(temp_path, cls=False)
 
         if not result:
             return ""
