@@ -28,6 +28,7 @@ import threading
 import time
 import traceback
 from pathlib import Path
+import pprint
 
 from paddleocr import PaddleOCR
 from PIL import Image
@@ -143,12 +144,11 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
         with semaphore:
             result = ocr.predict(temp_path)
 
-        logger.info(
-            "ocr_raw_result",
-            extra={
-                "result": str(result)[:3000],
-            },
-        )
+        print("=" * 100)
+        print("OCR RESULT START")
+        pprint.pp(result)
+        print("OCR RESULT END")
+        print("=" * 100)
 
         if not result:
             return ""
