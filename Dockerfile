@@ -86,7 +86,7 @@ USER appuser
 # OCR_LANGUAGE is overridden to something else at runtime, that language's
 # models will instead download on first use - normal PaddleOCR behavior,
 # just no longer the default path.
-RUN python -c "from paddleocr import PaddleOCR; PaddleOCR(lang='en')"
+# RUN python -c "from paddleocr import PaddleOCR; PaddleOCR(lang='en')"
 
 EXPOSE 5001
 
