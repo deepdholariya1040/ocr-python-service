@@ -66,8 +66,22 @@ def _get_ocr(settings: Settings) -> PaddleOCR:
                 started = time.perf_counter()
                 logger.info("initializing_paddleocr", extra={"lang": settings.OCR_LANGUAGE})
 
+                # _ocr_instance = PaddleOCR(
+                #     lang=settings.OCR_LANGUAGE,
+                #     use_textline_orientation=False,
+                # )
+
                 _ocr_instance = PaddleOCR(
                     lang=settings.OCR_LANGUAGE,
+
+                    # Use lightweight detection model
+                    text_detection_model_name="PP-OCRv5_mobile_det",
+
+                    # Use lightweight recognition model
+                    text_recognition_model_name="en_PP-OCRv5_mobile_rec",
+
+                    use_doc_orientation_classify=False,
+                    use_doc_unwarping=False,
                     use_textline_orientation=False,
                 )
 
