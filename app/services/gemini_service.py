@@ -375,6 +375,11 @@ def _call_gemini(
     temperature: float,
 ) -> str:
     try:
+        print("========== GEMINI DEBUG ==========")
+        print("MODEL:", repr(model))
+        print("PROMPT LENGTH:", len(prompt))
+        print("==================================")
+
         response = client.models.generate_content(
             model=model,
             contents=prompt,
@@ -385,7 +390,6 @@ def _call_gemini(
                 ),
             ),
         )
-
         text = (response.text or "").strip()
 
         # Debug-only, and truncated - the raw text may contain the card
@@ -397,7 +401,22 @@ def _call_gemini(
         )
 
     except Exception as exc:
+        import traceback
+
+        print("========== GEMINI EXCEPTION ==========")
+        traceback.print_exc()
+        print("======================================")
+
         message = str(exc).lower()
+
+        transient_markers = (
+            "timeout", "deadline", "429", "500", "502", "503", "504", "unavailable"
+        )
+
+        if any(marker in message for marker in transient_markers):
+            raise _GeminiTransientError(str(exc)) from exc
+
+        raise
         transient_markers = (
             "timeout", "deadline", "429", "500", "502", "503", "504", "unavailable"
         )
