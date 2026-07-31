@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     # --- OCR (PaddleOCR) ---------------------------------------------------
     OCR_LANGUAGE: str = "en"
     OCR_USE_GPU: bool = False
-    OCR_MAX_IMAGE_DIMENSION: int = 2200  # px, upper bound after preprocessing
+    OCR_MAX_IMAGE_DIMENSION: int = 1800  # px, upper bound after preprocessing
     OCR_MIN_IMAGE_DIMENSION: int = 800  # px, upscale threshold for small images
 
     # Below this many "meaningful" characters (alnum, post-OCR), the text is
