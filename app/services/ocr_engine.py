@@ -122,12 +122,23 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
 
         texts: list[str] = []
 
-        for page in result:
-            rec_texts = page.get("rec_texts", [])
+        for page in result or []:
+            if not page:
+                continue
 
-            for text in rec_texts:
-                if text:
-                    texts.append(str(text).strip())
+            for line in page:
+                try:
+                    if (
+                        isinstance(line, (list, tuple))
+                        and len(line) >= 2
+                        and isinstance(line[1], (list, tuple))
+                        and len(line[1]) >= 1
+                    ):
+                        text = str(line[1][0]).strip()
+                        if text:
+                            texts.append(text)
+                except Exception:
+                    continue
 
         return "\n".join(texts).strip()
 
