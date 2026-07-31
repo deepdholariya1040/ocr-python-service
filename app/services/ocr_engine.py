@@ -108,6 +108,7 @@ def extract_text(image: Image.Image, settings: Settings) -> str:
     temp_path: str | None = None
     try:
         ocr = _get_ocr(settings)
+        logger.warning("OCR_ENGINE_VERSION_20260731_V3")
         semaphore = _get_semaphore(settings)
 
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
