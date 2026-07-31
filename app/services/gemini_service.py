@@ -350,6 +350,18 @@ Notes
 
 Only use "notes" for information that genuinely does not belong to any structured field.
 
+IMPORTANT:
+Do NOT discard any OCR text.
+
+If any line of OCR text cannot be mapped to a structured field or an additional top-level field, append it to the "notes" field exactly as it appears.
+
+Every OCR line must appear somewhere in the output:
+- structured fields,
+- additional top-level fields,
+- or notes.
+
+Never lose any OCR text.
+
 Return JSON exactly matching the schema below.
 Additional top-level keys are allowed whenever the business card contains extra information.
 
