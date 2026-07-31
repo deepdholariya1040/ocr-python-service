@@ -56,8 +56,8 @@ def run_pipeline(
     if front_image is not None:
         with stage_timer(timings, "front_ocr_ms"):
             front_text = ocr_engine.extract_text(preprocess_for_ocr(front_image, settings), settings)
-        with stage_timer(timings, "front_qr_barcode_ms"):
-            front_qr, front_barcodes = qr_barcode_service.detect_codes(front_image, settings)
+        # with stage_timer(timings, "front_qr_barcode_ms"):
+        #     front_qr, front_barcodes = qr_barcode_service.detect_codes(front_image, settings)
         qr_codes.extend(front_qr)
         barcodes.extend(front_barcodes)
         image_quality["front"] = assess_image_quality(front_image)
